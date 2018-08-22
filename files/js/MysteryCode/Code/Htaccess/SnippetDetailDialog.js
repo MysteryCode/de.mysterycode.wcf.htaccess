@@ -5,8 +5,8 @@ define(['Ajax', 'Ui/Dialog', 'Language'], function(Ajax, UiDialog, Language) {
 
 	SnippetDetailDialog.prototype = {
 		init: function (button) {
-			var elements = elBySelAll(button);
-			for (var i = 0, length = elements.length; i < length; i++) {
+			let elements = elBySelAll(button);
+			for (let i = 0, length = elements.length; i < length; i++) {
 				elements[i].addEventListener(WCF_CLICK_EVENT, this._click.bind(this));
 			}
 
@@ -40,7 +40,7 @@ define(['Ajax', 'Ui/Dialog', 'Language'], function(Ajax, UiDialog, Language) {
 		_ajaxSuccess: function(data) {
 			this.template = data.returnValues;
 
-			var dialog = UiDialog.getDialog(this);
+			let dialog = UiDialog.getDialog(this);
 			if (dialog === undefined) {
 				UiDialog.open(this)
 			} else {
@@ -62,13 +62,6 @@ define(['Ajax', 'Ui/Dialog', 'Language'], function(Ajax, UiDialog, Language) {
 				},
 				source: this.template
 			};
-		},
-
-		/**
-		 * Initializes the dialog.
-		 */
-		_showDialog: function() {
-			UiDialog.getDialog(this).dialog;
 		}
 	};
 

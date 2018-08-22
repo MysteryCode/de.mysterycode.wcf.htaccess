@@ -53,6 +53,7 @@ class HtaccessContentAction extends AbstractDatabaseObjectAction implements ISor
 	
 	/**
 	 * @inheritDoc
+	 * @throws \wcf\system\exception\UserInputException
 	 */
 	public function validateUpdatePosition() {
 		WCF::getSession()->checkPermissions(['admin.configuration.htaccess.canSortContent']);
@@ -86,6 +87,11 @@ class HtaccessContentAction extends AbstractDatabaseObjectAction implements ISor
 		WCF::getDB()->commitTransaction();
 	}
 	
+	/**
+	 * Validates the getDetailDialog action
+	 *
+	 * @throws \wcf\system\exception\UserInputException
+	 */
 	public function validateGetDetailDialog() {
 		$this->readObjects();
 		
@@ -94,6 +100,11 @@ class HtaccessContentAction extends AbstractDatabaseObjectAction implements ISor
 		}
 	}
 	
+	/**
+	 * Returns the compiled template for the detail dialog
+	 *
+	 * @return string
+	 */
 	public function getDetailDialog() {
 		$content = $this->getSingleObject();
 		$tpl = TemplateEngine::getInstance();

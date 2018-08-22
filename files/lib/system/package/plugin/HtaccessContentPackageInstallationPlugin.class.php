@@ -42,7 +42,6 @@ class HtaccessContentPackageInstallationPlugin extends AbstractXMLPackageInstall
 	
 	/**
 	 * @inheritDoc
-	 * @throws	SystemException
 	 */
 	protected function getElement(\DOMXPath $xpath, array &$elements, \DOMElement $element) {
 		$nodeValue = $element->nodeValue;
@@ -50,6 +49,13 @@ class HtaccessContentPackageInstallationPlugin extends AbstractXMLPackageInstall
 		$elements[$element->tagName] = $nodeValue;
 	}
 	
+	/**
+	 * Returns the id of the file the content should match
+	 *
+	 * @param array $data
+	 * @return integer
+	 * @throws \wcf\system\exception\SystemException
+	 */
 	protected function getFile(array $data) {
 		if (empty($data['application'])) return null;
 		

@@ -3,8 +3,7 @@
 namespace wcf\data\htaccess;
 
 use wcf\data\DatabaseObject;
-use wcf\data\htaccess\content\HtaccessContentList;
-use wcf\system\application\ApplicationHandler;
+use wcf\data\htaccess\content\RecursiveHtaccessContentList;
 use wcf\util\FileUtil;
 
 /**
@@ -39,45 +38,13 @@ class Htaccess extends DatabaseObject {
 	 * @return boolean
 	 */
 	public static function generateFiles() {
-		$objectList = new HtaccessContentList();
-		$objectList->sqlOrderBy .= "htaccess_content.showOrder ASC";
-		$objectList->sqlSelects .= "ht.application, ht.path";
-		$objectList->sqlJoins .= " LEFT JOIN wcf" . WCF_N . "_htaccess ht ON ht.fileID = htaccess_content.fileID";
-		$objectList->getConditionBuilder()->add('htaccess_content.isDisabled <> 1');
-		$objectList->getConditionBuilder()->add('htaccess_content.fileID IN (SELECT hc.fileID FROM wcf' . WCF_N . '_htaccess hc WHERE hc.application IN (?)) OR (htaccess_content.isUnique = 1 AND htaccess_content.fileID IS NULL)', [ApplicationHandler::getInstance()->getAbbreviations()]);
-		$objectList->readObjects();
-		
-		$t = $objectTree = [];
-		/** @var false|\wcf\data\application\Application $a */
-		$a = false;
-		foreach (ApplicationHandler::getInstance()->getApplications() as $app) {
-			$t[$app->domainName][$app->domainPath] = $app;
-		}
-		if (count($t) === 1) {
-			$b = array_shift($t);
-			$a = array_shift($b);
-		}
-		
-		foreach ($objectList->getObjects() as $object) {
-			if ($object->forceSingleFile || $a === false) {
-				if ($object->isUseable()) $objectTree[$object->getFile()->getPath()][] = $object->getOutput();
-			}
-			else if ($a !== false) {
-				if (
-					(
-						($object->isUnique && $object->isGlobal && $object->fileID == null) ||
-						(!$object->isUnique && $object->isGlobal && $object->fileID != null) ||
-						(!$object->isUnique && !$object->isGlobal)
-					) && $object->isUseable()
-				) {
-					$objectTree[$a->getPackage()->getAbsolutePackageDir() . '.htaccess'][] = $object->getOutput();
-				}
-			}
-		}
+		$contentList = new RecursiveHtaccessContentList();
+		$contentList->readObjects();
+		$objectTree = $contentList->getOutputTree();
 		
 		$success = true;
 		foreach ($objectTree as $path => $snippetList) {
-			$content = implode("\n\n", $snippetList);
+			$content = explode("\n", implode(" \n \n",  $snippetList));
 			$success = $success && file_put_contents($path, $content) !== false;
 		}
 		

@@ -128,6 +128,7 @@ class HtaccessContentAddForm extends AbstractAcpForm {
 	
 	/**
 	 * @inheritDoc
+	 * @throws \wcf\system\exception\UserInputException
 	 */
 	public function validate() {
 		parent::validate();

@@ -71,6 +71,7 @@ class HtaccessContent extends DatabaseObject {
 	 * Returns the output of the content object
 	 *
 	 * @param HtaccessContent $previous
+	 * @param HtaccessContent $next
 	 * @return string
 	 */
 	public function getOutput(HtaccessContent $previous = null, HtaccessContent $next = null) {
@@ -133,6 +134,7 @@ class HtaccessContent extends DatabaseObject {
 			}
 			
 			if ($this->isDynamic) {
+				/** @noinspection PhpUndefinedMethodInspection */
 				$test = $this->controller::isUseable();
 				
 				if ($test !== true) {

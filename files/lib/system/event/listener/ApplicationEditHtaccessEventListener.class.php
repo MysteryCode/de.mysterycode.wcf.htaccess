@@ -46,8 +46,10 @@ class ApplicationEditHtaccessEventListener implements IParameterizedEventListene
 							AND htaccess_content.fileID IS NULL");
 				$statement->execute();
 				while ($row = $statement->fetchObject(HtaccessContent::class)) {
+					/** @noinspection PhpUndefinedFieldInspection */
 					$contentR = new Htaccess($row->referenceFileID);
 					
+					/** @noinspection PhpDeprecationInspection */
 					$data = $row->getData();
 					unset($data['contentID']);
 					if (isset($data['referenceFileID'])) unset($data['referenceFileID']);
@@ -61,6 +63,15 @@ class ApplicationEditHtaccessEventListener implements IParameterizedEventListene
 		}
 	}
 	
+	/**
+	 * Returns the id of the file the content should match
+	 *
+	 * @param string $package
+	 * @param string $application
+	 * @param string $path
+	 * @return integer
+	 * @throws \wcf\system\exception\SystemException
+	 */
 	protected function getFile($package, $application, $path) {
 		$sql = "SELECT	fileID
 				FROM	wcf".WCF_N."_htaccess

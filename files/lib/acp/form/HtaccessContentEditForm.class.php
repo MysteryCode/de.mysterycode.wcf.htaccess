@@ -42,6 +42,8 @@ class HtaccessContentEditForm extends HtaccessContentAddForm {
 	
 	/**
 	 * @inheritDoc
+	 * @throws \wcf\system\exception\IllegalLinkException
+	 * @throws \wcf\system\exception\PermissionDeniedException
 	 */
 	public function readParameters() {
 		if (!empty($_REQUEST['id'])) $this->contentID = intval($_REQUEST['id']);
