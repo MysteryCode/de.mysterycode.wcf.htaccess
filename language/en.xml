@@ -28,11 +28,16 @@
 		<item name="wcf.acp.htaccess.content.package"><![CDATA[Identifier of the package]]></item>
 		<item name="wcf.acp.htaccess.content.application"><![CDATA[Abbreviation of the application]]></item>
 		<item name="wcf.acp.htaccess.content.path"><![CDATA[Path relative to the application's root]]></item>
+		<item name="wcf.acp.htaccess.content.path.file"><![CDATA[Path of file]]></item>
 		<item name="wcf.acp.htaccess.content.content"><![CDATA[Content]]></item>
+		<item name="wcf.acp.htaccess.content.code"><![CDATA[Generated Code]]></item>
+		<item name="wcf.acp.htaccess.content.module"><![CDATA[Required Apache-Module]]></item>
 		<item name="wcf.acp.htaccess.content.options"><![CDATA[Options]]></item>
 		<item name="wcf.acp.htaccess.content.generatedFiles"><![CDATA[Generated Contents]]></item>
 		<item name="wcf.acp.htaccess.content.choose"><![CDATA[Choose file]]></item>
 		<item name="wcf.acp.htaccess.content.file"><![CDATA[Information about .htaccess-file]]></item>
+		<item name="wcf.acp.htaccess.content.info"><![CDATA[Details about .htaccess-Snippet]]></item>
+		<item name="wcf.acp.htaccess.content.global"><![CDATA[For global usage]]></item>
 		<item name="wcf.acp.htaccess.content.configuration"><![CDATA[Snippet-Configuration]]></item>
 
 		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.ssl"><![CDATA[Force SSL]]></item>
