@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com https://static.mysterycode.de/XSD/htaccessContent.xsd">
+	<import>
+		<content identifier="de.mysterycode.wcf.htaccess.ssl">
+			<isDynamic>1</isDynamic> <!-- content is dynamic and will be provided by controller -->
+			<options><![CDATA[]]></options> <!-- needed enabled/set options -->
+			<module><![CDATA[mod_rewrite.c]]></module> <!-- needed apache module -->
+			<controller><![CDATA[wcf\system\htaccess\snippet\SSLSnippetProvider]]></controller> <!-- controller/provider of the dynamic content -->
+			<content><![CDATA[<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteCond %{HTTPS} off
+	RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>]]></content>
+
+			<global>1</global> <!-- can be assigned to all applications -->
+			<unique>1</unique> <!-- can be assigned onces per file only -->
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.mcps">
+			<isDynamic>1</isDynamic>
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<controller><![CDATA[wcf\system\htaccess\snippet\MCPSSnippetProvider]]></controller>
+			<options>mcps_server,mcps_rewrite_enable</options>
+
+			<force-file>1</force-file> <!-- can be assigned onces per file only -->
+
+			<application>mcps</application>
+			<path><![CDATA[]]></path>
+			<package>de.mysterycode.mcps</package>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.seo">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[	# Rewrite application „::APP_NAME::“ @ ::APP_DIR::
+	RewriteCond %{SCRIPT_FILENAME} !-d
+	RewriteCond %{SCRIPT_FILENAME} !-f
+	RewriteRule ^::APP_DIR::(.*)$ ::APP_DIR::index.php?$1 [L,QSA]]]></content>
+
+			<global>1</global>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keepmaelstrom">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Rewrite application „::APP_NAME::“ (WCF 2.0) @ ::APP_DIR::
+RewriteRule ^::APP_DIR::index.php/(.*) ::APP_DIR::index.php?$1 [L,QSA]]]></content>
+
+			<global>1</global>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[	# Rewrite application „::APP_NAME::“ (WCF 1.1) @ ::APP_DIR::
+	RewriteCond %{QUERY_STRING} page=User&userID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?user/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} page=Thread&threadID=([0-9]+)&action=lastPost
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?thread/%1/&action=lastPost [R=301,L]
+	RewriteCond %{QUERY_STRING} page=Thread&threadID=([0-9]+)&action=firstNew
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?thread/%1/&action=firstNew [R=301,L]
+	RewriteCond %{QUERY_STRING} page=Thread&postID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?thread/thread/&postID=%1#post%1 [NE,R=301,L]
+	RewriteCond %{QUERY_STRING} page=Thread&postID=([0-9]+)#post([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?thread/thread/&postID=%1#post%1 [NE,R=301,L]
+	RewriteCond %{QUERY_STRING} page=Thread&threadID=([0-9]+)&pageNo=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?thread/%1/&pageNo=%2 [R=301,L]
+	RewriteCond %{QUERY_STRING} page=Thread&threadID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?thread/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} page=Board&boardID=([0-9]+)&pageNo=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?board/%1/&pageNo=%2 [R=301,L]
+	RewriteCond %{QUERY_STRING} page=Board&boardID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?board/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} page=Attachment&attachmentID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?attachment/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} page=Index
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?board-list/ [R=301,L]
+	RewriteCond %{QUERY_STRING} page=Portal
+	RewriteRule ^::OLD_APP_DIR::index\.php$ index.php?dashboard/ [R=301,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.blog">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[	# Rewrite application „::APP_NAME::“ (WCF 1.1) @ ::APP_DIR::
+	RewriteCond %{QUERY_STRING} page=UserBlogOverview
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR:: [R=301,L]
+	RewriteCond %{QUERY_STRING} page=UserBlogEntry&entryID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?entry/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} page=UserBlog&userID=([0-9]+)&categoryID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?entry-list/&userID=%1 [R=301,L]
+	RewriteCond %{QUERY_STRING} page=UserBlogOverview&categoryID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?entry-list/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} page=UserBlog&userID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?entry-list/&userID=%1 [R=301,L]]]></content>
+
+			<application>blog</application>
+			<package>com.woltlab.blog</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.gallery">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[	# Rewrite application „::APP_NAME::“ (WCF 1.1) @ ::APP_DIR::
+	RewriteCond %{QUERY_STRING} page=UserGalleryOverview
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR:: [R=301,L]
+	RewriteCond %{QUERY_STRING} page=UserGalleryAlbumList&userID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?album/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} page=UserGalleryPhotos&userID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?user-image-ist/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} page=UserGalleryPhoto&photoID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?image/%1/ [R=301,L]]]></content>
+
+			<application>gallery</application>
+			<package>com.woltlab.gallery</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.calendar">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[	# Rewrite application „::APP_NAME::“ (WCF 1.1) @ ::APP_DIR::
+	RewriteCond %{QUERY_STRING} page=CalendarMonth
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR:: [R=301,L]
+	RewriteCond %{QUERY_STRING} page=CalendarWeek
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?weekly/ [R=301,L]
+	RewriteCond %{QUERY_STRING} page=CalendarEvent&eventID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?event/%1/ [R=301,L]]]></content>
+
+			<application>calendar</application>
+			<package>com.woltlab.calendar</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.seo">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[	# Burning Board 3
+	RewriteRule ^::OLD_APP_DIR::(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/last\-post\.html$ ::APP_DIR::index.php?thread/$4-$5/&action=lastPost [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/first\-new\-post\.html$ ::APP_DIR::index.php?thread/$4-$5/&action=firstNew [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/p([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/&postID=$4#post$4 [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/index([0-9]+)\.html$ ::APP_DIR::index.php?thread/$4-$5/&pageNo=$6 [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/$4-$5/ [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/index([0-9]+)\.html$ ::APP_DIR::index.php?board/$2-$3/&pageNo=$4 [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/?$ ::APP_DIR::index.php?board/$2/ [R=301,QSA,L]
+
+	#TODO: wcf
+	RewriteRule ^::OLD_APP_DIR::user/([0-9]+)\-([^/\.]*)/?$ ::WSC_DIR::/index.php/user/$1-$2/ [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} page=Attachment&attachmentID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::WSC_DIR::/index.php?attachment/%1/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.blog.seo">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[	# Community Blog 1
+	RewriteRule ^::OLD_APP_DIR::user/blog([0-9]+)\-([^/\.]*)/entry([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?entry/$3-$4/ [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::user/blog([0-9]+)\-([^/\.]*)/category([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?entry-list/&userID=$1 [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::blog/category([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php??entry-list/$1/ [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::user/blog([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?entry-list/&userID=$1 [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} page=UserBlogOverview
+	RewriteRule ^::OLD_APP_DIR::index\.php$ /blog/ [R=301,QSA,L]]]></content>
+
+			<application>blog</application>
+			<package>com.woltlab.blog</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.gallery.seo">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[	# Community Gallery 1
+	RewriteRule ^::OLD_APP_DIR::user/gallery([0-9]+)/([^/\.]*)/photo([0-9]+)/([^/\.]*)/?$ ::APP_DIR::index.php?image/$3-$4/ [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::user/gallery([0-9]+)/([^/\.]*)/album([0-9]+)/([^/\.]*)/?$ ::APP_DIR::index.php/Album/$3-$4/ [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::gallery/category([0-9]+)/([^/\.]*)/?$ ::APP_DIR::index.php?image-list/$1-$2/ [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::user/gallery([0-9]+)/([^/\.]*)/?$ ::APP_DIR::index.php?image/$3-$4/ [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} page=UserGalleryOverview
+	RewriteRule ^::OLD_APP_DIR::index\.php$ /gallery/ [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} page=UserGalleryAlbumList&userID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?album-list/%1/ [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} page=UserGalleryPhotos&userID=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::index\.php$ ::APP_DIR::index.php?user-image-list/%1/ [R=301,QSA,L]]]></content>
+
+			<application>gallery</application>
+			<package>com.woltlab.gallery</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keepphpbb3">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[	#phpBB 3.x
+	#Posts
+	RewriteCond %{QUERY_STRING} ^p=([0-9]+).*$
+	RewriteRule ^::OLD_APP_DIR::viewtopic\.php$ ::APP_DIR::index.php?thread/&postID=%1#post%1 [R=301,L]
+	#Forums
+	RewriteCond %{QUERY_STRING} ^f=([0-9]+).*$
+	RewriteRule ^::OLD_APP_DIR::viewforum\.php$ ::APP_DIR::index.php?board/%1/ [R=301,L]
+	#Threads
+	RewriteCond %{QUERY_STRING} ^f=([0-9]+)&t=([0-9]+).*$
+	RewriteRule ^::OLD_APP_DIR::viewtopic\.php$ ::APP_DIR::index.php?thread/%2/ [R=301,L]
+	RewriteCond %{QUERY_STRING} ^t=([0-9]+).*$
+	RewriteRule ^::OLD_APP_DIR::viewtopic\.php$ ::APP_DIR::index.php?thread/%1/ [R=301,L]
+	#Profiles
+	RewriteCond %{QUERY_STRING} ^mode=viewprofile&u=([0-9]+).*$
+	RewriteRule ^::OLD_APP_DIR::memberlist\.php$ ::APP_DIR::index.php?user/%1/ [R=301,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keepvb">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[	#vBulletin 3.x/4.x
+	RewriteCond %{QUERY_STRING} ^f=([0-9]+)$
+	RewriteRule ^::OLD_APP_DIR::forumdisplay\.php$ ::APP_DIR::index.php?board/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} ^p=([0-9]+)$
+	RewriteRule ^::OLD_APP_DIR::showthread\.php$ ::APP_DIR::index.php?thread/postID=%1#post%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} ^p=([0-9]+)#post([0-9]+)$
+	RewriteRule ^::OLD_APP_DIR::showthread\.php$ ::APP_DIR::index.php?thread/postID=%1#post%2/ [R=301,L]
+	RewriteCond %{QUERY_STRING} ^([0-9]+)-([^/\.]+)&goto=newpost$
+	RewriteRule ^::OLD_APP_DIR::showthread\.php$ ::APP_DIR::index.php?thread/%1-%2/&action=firstNew [R=301,L]
+	RewriteCond %{QUERY_STRING} ^t=([0-9]+)$
+	RewriteRule ^::OLD_APP_DIR::showthread\.php$ ::APP_DIR::index.php?thread/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} ^t=([0-9]+)&s=(.*)$
+	RewriteRule ^::OLD_APP_DIR::showthread\.php$ ::APP_DIR::index.php?thread/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} ^t=([0-9]+)&langid=([0-9]+)$
+	RewriteRule ^::OLD_APP_DIR::showthread\.php$ ::APP_DIR::index.php?thread/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} ^t=([0-9]+)&p=([0-9]+)$
+	RewriteRule ^::OLD_APP_DIR::showthread\.php$ ::APP_DIR::index.php?thread/%1-%2/&postID=%3#post%3 [R=301,L]
+	RewriteCond %{QUERY_STRING} ^t=([0-9]+)&page=([0-9]+)$
+	RewriteRule ^::OLD_APP_DIR::showthread\.php$ ::APP_DIR::index.php?thread/%1/&pageNo=%2 [R=301,L]
+	RewriteCond %{QUERY_STRING} ^t=([0-9]+)&page=([0-9]+)&langid=([0-9]+)$
+	RewriteRule ^::OLD_APP_DIR::showthread\.php$ ::APP_DIR::index.php?thread/%1/&pageNo=%2 [R=301,L]
+	RewriteCond %{QUERY_STRING} ^attachmentid=([0-9]+)&d=([0-9]+)$
+	RewriteRule ^::OLD_APP_DIR::attachment\.php$ ::APP_DIR::index.php?attachment/%1/ [R=301,L]
+	RewriteCond %{QUERY_STRING} ^p=([0-9]+)&postcount=([0-9]+)$
+	RewriteRule ^::OLD_APP_DIR::showpost\.php$ ::APP_DIR::index.php?thread/&postID=%1#post%1 [R=301,L]
+	RewriteCond %{QUERY_STRING} ^do=getnew&contenttype=vBForum_Post$
+	RewriteRule ^::OLD_APP_DIR::search\.php$ ::APP_DIR::index.php?board-quick-search/&mode=unreadPosts [R=301,L]
+	RewriteRule ^::OLD_APP_DIR::forum\.php$ ::APP_DIR::index.php?board-list/ [R=301,L]
+
+	#TODO: wsc
+	RewriteCond %{QUERY_STRING} ^([0-9]+)-([^/\.]+)$
+	RewriteRule ^::OLD_APP_DIR::member\.php$ ::WSC_DIR::/index.php?user/%1-%2/ [R=301,L]
+	RewriteRule ^::OLD_APP_DIR::online\.php$ ::WSC_DIR::/index.php?users-online-list/ [R=301,L]
+	RewriteRule ^::OLD_APP_DIR::activity\.php$ ::WSC_DIR::/index.php?dashboard/ [R=301,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keepwbb2">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[## Burning Board 2
+	RewriteCond %{QUERY_STRING} userid=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::profile\.php$ index.php?user/%1/ [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} goto=lastpost&threadid=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::thread\.php$ ::APP_DIR::index.php?thread/%1/&action=lastPost [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} threadid=([0-9]+)&goto=lastpost
+	RewriteRule ^::OLD_APP_DIR::thread\.php$ ::APP_DIR::index.php?thread/%1/&action=lastPost [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} postid=([0-9]+)#post([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::thread\.php$ ::APP_DIR::index.php?thread/&postID=%1#post%1 [NE,R=301,L]
+	RewriteCond %{QUERY_STRING} postid=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::thread\.php$ ::APP_DIR::index.php?thread/&postID=%1#post%1 [NE,R=301,L]
+	RewriteCond %{QUERY_STRING} threadid=([0-9]+)page=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::thread\.php$ ::APP_DIR::index.php?thread/%1/&pageNo=%2 [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} threadid=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::thread\.php$ ::APP_DIR::index.php?thread/%1/ [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} boardid=([0-9]+)&daysprune=1000&sortfield=lastposttime&sortorder=DESC&page=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::board\.php$ ::APP_DIR::index.php?board/%1/&pageNo=%2 [R=301,QSA,L]
+	RewriteCond %{QUERY_STRING} boardid=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::board\.php$ ::APP_DIR::index.php?board/%1/ [R=301,QSA,L]
+
+	#TODO: wsc
+	RewriteCond %{QUERY_STRING} attachmentid=([0-9]+)
+	RewriteRule ^::OLD_APP_DIR::attachment\.php$ ::WSC_DIR::/index.php?attachment/%1/ [R=301,QSA,L]
+
+	# Burning Board 2 Archiv
+	RewriteRule ^::OLD_APP_DIR::archive/index\.html$ index.php?board-list/ [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::archive/([0-9]*)/board\.html$ ::APP_DIR::index.php?board/%1/ [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::archive/([0-9]*)/([0-9]*)/board\.html$ ::APP_DIR::index.php?board/%1/&pageNo=%2 [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::archive/([0-9]*)/thread\.html$ ::APP_DIR::index.php?thread/%1/ [R=301,QSA,L]
+	RewriteRule ^::OLD_APP_DIR::archive/([0-9]*)/([0-9]*)/thread\.html$ ::APP_DIR::index.php?thread/%1/&pageNo=%2 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+<!--
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Benutzerprofil-Link-Format
+# user/{USER_ID}-{USERNAME}/
+RewriteRule ^::OLD_APP_DIR::user/([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?user/$1-$2/ [R=301,QSA,L]]]></content>
+
+			<application>wcf</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo2">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Benutzerprofil-Link-Format
+# user/{USER_ID}/{USERNAME}/
+RewriteRule ^::OLD_APP_DIR::user/([0-9]+)/([^/\.]*)/?$ ::APP_DIR::index.php?user/$1-$2/ [R=301,QSA,L]]]></content>
+
+			<application>wcf</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.lastpost.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für Sprung zum letzten Beitrag
+# {PARENT_BOARDS}board{BOARD_ID}-{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/last-post.html
+RewriteRule ^::OLD_APP_DIR::(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/last\-post\.html$ ::APP_DIR::index.php?thread/$4-$5/&action=lastPost [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.lastpost.seo2">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für Sprung zum letzten Beitrag
+# {PARENT_BOARDS}{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/last-post.html
+RewriteRule ^::OLD_APP_DIR::([^/\.]+/)*([^/\.]+)/([0-9]+)\-([^/\.]*)/last\-post\.html$ ::APP_DIR::index.php?thread/$3-$4/&action=lastPost [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.lastpost.seo3">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für Sprung zum letzten Beitrag
+# {BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/last-post.html
+RewriteRule ^::OLD_APP_DIR::([^/\.]+)/([0-9]+)\-([^/\.]*)/last\-post\.html$ ::APP_DIR::index.php?thread/$2-$3/&action=lastPost [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.lastpost.seo4">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für Sprung zum letzten Beitrag
+# board{BOARD_ID}-{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/last-post.html
+RewriteRule ^::OLD_APP_DIR::board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/last\-post\.html$ ::APP_DIR::index.php?thread/$3-$4/&action=lastPost [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.lastpost.seo5">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für Sprung zum letzten Beitrag
+# {THREAD_ID}-{THREAD_TOPIC}/last-post.html
+RewriteRule ^::OLD_APP_DIR::([0-9]+)\-([^/\.]*)/last\-post\.html$ ::APP_DIR::index.php?thread/$1-$2/&action=lastPost [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.newpost.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für Sprung zum ersten neuen Beitrag
+# {PARENT_BOARDS}board{BOARD_ID}-{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/first-new-post.html
+RewriteRule ^::OLD_APP_DIR::(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/first\-new\-post\.html$ ::APP_DIR::index.php?thread/$4-$5/&action=firstNew [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.newpost.seo2">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für Sprung zum ersten neuen Beitrag
+# {PARENT_BOARDS}{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/first-new-post.html
+RewriteRule ^::OLD_APP_DIR::([^/\.]+/)*([^/\.]+)/([0-9]+)\-([^/\.]*)/first\-new\-post\.html$ ::APP_DIR::index.php?thread/$3-$4/&action=firstNew [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.newpost.seo3">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für Sprung zum ersten neuen Beitrag
+# {BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/first-new-post.html
+RewriteRule ^::OLD_APP_DIR::([^/\.]+)/([0-9]+)\-([^/\.]*)/first\-new\-post\.html$ ::APP_DIR::index.php?thread/$2-$3/&action=firstNew [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.newpost.seo4">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für Sprung zum ersten neuen Beitrag
+# board{BOARD_ID}-{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/first-new-post.html
+RewriteRule ^::OLD_APP_DIR::board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/first\-new\-post\.html$ ::APP_DIR::index.php?thread/$3-$4/&action=firstNew [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.wbb.newpost.seo5">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für Sprung zum ersten neuen Beitrag
+# {THREAD_ID}-{THREAD_TOPIC}/first-new-post.html
+RewriteRule ^::OLD_APP_DIR::([0-9]+)\-([^/\.]*)/first\-new\-post\.html$ ::APP_DIR::index.php?thread/$1-$2/&action=firstNew [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Beitrags-Link-Format
+# {PARENT_BOARDS}board{BOARD_ID}-{BOARD_TITLE}/p{POST_ID}-{THREAD_TOPIC}/
+RewriteRule ^(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/p([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/&postID=$4#post$4 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Beitrags-Link-Format
+# {PARENT_BOARDS}{BOARD_TITLE}/p{POST_ID}-{THREAD_TOPIC}/
+RewriteRule ^([^/\.]+/)*([^/\.]+)/p([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/&postID=$3#post$3 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Beitrags-Link-Format
+# {BOARD_TITLE}/p{POST_ID}-{THREAD_TOPIC}/
+RewriteRule ^([^/\.]+)/p([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/&postID=$2#post$2 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Beitrags-Link-Format
+# board{BOARD_ID}-{BOARD_TITLE}/p{POST_ID}-{THREAD_TOPIC}/
+RewriteRule ^board([0-9]+)\-([^/\.]+)/p([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/&postID=$3#post$3 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Beitrags-Link-Format
+# board{BOARD_ID}/p{POST_ID}-{THREAD_TOPIC}/
+RewriteRule ^board([0-9]+)/p([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/&postID=$2#post$2 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Beitrags-Link-Format
+# p{POST_ID}-{THREAD_TOPIC}.html
+RewriteRule ^p([0-9]+)\-([^/\.]*)\.html$ ::APP_DIR::index.php?thread/&postID=$1#post$1 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format für multiple Seite
+# {PARENT_BOARDS}board{BOARD_ID}-{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/index{THREAD_PAGE_NO}.html
+RewriteRule ^(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/index([0-9]+)\.html$ ::APP_DIR::index.php?thread/$4-$5/&pageNo=$6 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format für multiple Seite
+# {PARENT_BOARDS}{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/index{THREAD_PAGE_NO}.html
+RewriteRule ^([^/\.]+/)*([^/\.]+)/([0-9]+)\-([^/\.]*)/index([0-9]+)\.html$ ::APP_DIR::index.php?thread/$3-$4/&pageNo=$5 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format für multiple Seite
+# {BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/index{THREAD_PAGE_NO}.html
+RewriteRule ^([^/\.]+)/([0-9]+)\-([^/\.]*)/index([0-9]+)\.html$ ::APP_DIR::index.php?thread/$2-$3/&pageNo=$4 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format für multiple Seite
+# board{BOARD_ID}-{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/index{THREAD_PAGE_NO}.html
+RewriteRule ^board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/index([0-9]+)\.html$ ::APP_DIR::index.php?thread/$3-$4/&pageNo=$5 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format für multiple Seite
+# board{BOARD_ID}/{THREAD_ID}-{THREAD_TOPIC}/index{THREAD_PAGE_NO}.html
+RewriteRule ^board([0-9]+)/([0-9]+)\-([^/\.]*)/index([0-9]+)\.html$ ::APP_DIR::index.php?thread/$2-$3/&pageNo=$4 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format für multiple Seite
+# {THREAD_ID}-{THREAD_TOPIC}/thread{THREAD_PAGE_NO}.html
+RewriteRule ^([0-9]+)\-([^/\.]*)/thread([0-9]+)\.html$ ::APP_DIR::index.php?thread/$1-$2/?pageNo=$3 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format
+# {PARENT_BOARDS}board{BOARD_ID}-{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/
+RewriteRule ^(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/$4-$5/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format
+# {PARENT_BOARDS}{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/
+RewriteRule ^([^/\.]+/)*([^/\.]+)/([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/$3-$4/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format
+# {BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/
+RewriteRule ^([^/\.]+)/([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/$2-$3/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format
+# board{BOARD_ID}-{BOARD_TITLE}/{THREAD_ID}-{THREAD_TOPIC}/
+RewriteRule ^board([0-9]+)\-([^/\.]+)/([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/$3-$4/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format
+# board{BOARD_ID}/{THREAD_ID}-{THREAD_TOPIC}/
+RewriteRule ^board([0-9]+)/([0-9]+)\-([^/\.]*)/?$ ::APP_DIR::index.php?thread/$2-$3/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Themen-Link-Format
+# {THREAD_ID}-{THREAD_TOPIC}.html
+RewriteRule ^([0-9]+)\-([^/\.]*)\.html$ ::APP_DIR::index.php?thread/$1-$2/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Foren-Link-Format für multiple Seite
+# {PARENT_BOARDS}board{BOARD_ID}-{BOARD_TITLE}/index{BOARD_PAGE_NO}.html
+RewriteRule ^(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/index([0-9]+)\.html$ ::APP_DIR::index.php?board/$2-$3/&pageNo=$4 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Foren-Link-Format für multiple Seite
+# {PARENT_BOARDS}{BOARD_TITLE}/index{BOARD_PAGE_NO}.html
+RewriteRule ^([^/\.]+/)*([^/\.]+)/index([0-9]+)\.html$ ::APP_DIR::index.php?board-list/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Foren-Link-Format für multiple Seite
+# board{BOARD_ID}/index{BOARD_PAGE_NO}.html
+RewriteRule ^board([0-9]+)/index([0-9]+)\.html$ ::APP_DIR::index.php?board/$1/&pageNo=$2 [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Foren-Link-Format für multiple Seite
+# {BOARD_TITLE}/board{BOARD_PAGE_NO}.html
+RewriteRule ^([^/\.]+)/board([0-9]+)\.html$ ::APP_DIR::index.php?board-list/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für übergeordnete Foren
+# board{BOARD_ID}-{BOARD_TITLE}/
+RewriteRule ^(board[0-9]+\-[^/\.]+/)*board([0-9]+)\-([^/\.]+)/?$ ::APP_DIR::index.php?board/$2/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Link-Format für übergeordnete Foren
+# board{BOARD_ID}/
+RewriteRule ^board([0-9]+)/?$ ::APP_DIR::index.php?board/$1/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Startseiten-Links umschreiben
+# {PAGE_TITLE}.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/\.]+)\.html$ ::APP_DIR::index.php?board-list/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Startseiten-Links umschreiben
+# index.html
+RewriteRule ^index\.html$ ::APP_DIR::index.php?board-list/ [R=301,QSA,L]]]></content>
+
+			<application>wbb</application>
+			<package>com.woltlab.wbb</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Dateianhänge
+RewriteCond %{QUERY_STRING} page=Attachment&attachmentID=([0-9]+)
+RewriteRule ^index\.php$ ::APP_DIR::index.php?attachment/%1/ [R=301,QSA,L]]]></content>
+
+			<application>wcf</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+
+		<content identifier="de.mysterycode.wcf.htaccess.keeptempest.user.seo1">
+			<options><![CDATA[]]></options>
+			<module><![CDATA[mod_rewrite.c]]></module>
+			<content><![CDATA[# Portal
+RewriteCond %{QUERY_STRING} page=Portal
+RewriteRule ^index\.php$ index.php?dashboard/ [R=301,QSA,L]]]></content>
+
+			<application>wcf</application>
+			<package>com.woltlab.wcf</package>
+			<path><![CDATA[]]></path>
+		</content>
+-->
+	</import>
+</data>

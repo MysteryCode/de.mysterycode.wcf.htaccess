@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="de.mysterycode.wcf.htaccess" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com https://mysterycode.de/XSD/package.xsd">
+ 	<packageinformation>
+		<packagename><![CDATA[.htaccess-Manager]]></packagename>
+		<packagename language="de"><![CDATA[.htaccess-Verwaltung]]></packagename>
+		<packagedescription><![CDATA[Manages the content of .htaccess-files belonging to your WSC installation.]]></packagedescription>
+		<packagedescription language="de"><![CDATA[Verwaltet die Inhalte der .htaccess-Dateien Ihrer WSC-Installation.]]></packagedescription>
+
+		<version><![CDATA[1.0.0 Beta 6]]></version>
+		<date><![CDATA[2018-08-22]]></date>
+
+		<packageurl>https://www.mysterycode.de</packageurl>
+	</packageinformation>
+
+	<compatibility>
+		<api version="2018" />
+	</compatibility>
+
+	<requiredpackages>
+		<requiredpackage minversion="3.1.5 pl 1"><![CDATA[com.woltlab.wcf]]></requiredpackage>
+	</requiredpackages>
+
+	<authorinformation>
+		<author><![CDATA[Florian Gail]]></author>
+		<authorurl><![CDATA[https://www.mysterycode.de]]></authorurl>
+	</authorinformation>
+
+	<instructions type="install">
+		<instruction type="acpTemplate" />
+		<instruction type="file" />
+
+		<instruction type="sql" />
+
+		<instruction type="option" />
+		<instruction type="userGroupOption" />
+		<instruction type="eventListener" />
+		<instruction type="acpMenu" />
+
+		<instruction type="packageInstallationPlugin" />
+		<instruction type="htaccessContent" />
+
+		<instruction type="language" />
+	</instructions>
+
+	<instructions type="update" fromversion="1.0.0 Beta *">
+		<instruction type="acpTemplate" />
+		<instruction type="file" />
+
+		<instruction type="option" />
+		<instruction type="userGroupOption" />
+		<instruction type="eventListener" />
+		<instruction type="acpMenu" />
+
+		<instruction type="packageInstallationPlugin" />
+		<instruction type="htaccessContent" />
+
+		<instruction type="language" />
+	</instructions>
+</package>

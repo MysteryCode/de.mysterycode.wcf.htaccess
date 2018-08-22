@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<language xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com https://mysterycode.de/XSD/language.xsd" languagecode="de-informal">
+	<category name="wcf.acp.group">
+		<item name="wcf.acp.group.option.category.admin.configuration.htaccess"><![CDATA[.htaccess-Verwaltung]]></item>
+		<item name="wcf.acp.group.option.admin.configuration.htaccess.canView"><![CDATA[Kann Verwaltung sehen]]></item>
+		<item name="wcf.acp.group.option.admin.configuration.htaccess.canAddContent"><![CDATA[Kann Snippets hinzufügen]]></item>
+		<item name="wcf.acp.group.option.admin.configuration.htaccess.canDeleteContent"><![CDATA[Kann Snippets löschen]]></item>
+		<item name="wcf.acp.group.option.admin.configuration.htaccess.canSortContent"><![CDATA[Kann Snippets sortieren]]></item>
+		<item name="wcf.acp.group.option.admin.configuration.htaccess.canEnableContent"><![CDATA[Kann Snippets aktivieren]]></item>
+	</category>
+	<category name="wcf.acp.htaccess">
+		<item name="wcf.acp.htaccess.warning"><![CDATA[.htacess-Dateien haben Auswirkungen auf die Darstellung und Erreichbarkeit Ihres Webauftritts. Handle also bitte immer mit Bedacht und füge keine Codes hinzu, deren Bedeutung du nicht nachvollziehen kannst. Im Notfall reicht es in der Regel die entsprechende Datei zu modifizieren oder die komplette Datei temporär zu entfernen.]]></item>
+
+		<item name="wcf.acp.htaccess.list"><![CDATA[.htaccess-Dateien auflisten]]></item>
+		<item name="wcf.acp.htaccess.add"><![CDATA[.htaccess-Datei registrieren]]></item>
+		<item name="wcf.acp.htaccess.delete.confirmMessage"><![CDATA[Willst du die .htaccess-Datei wirklich <strong>aus dem Dateisystem entfernen</strong> und die damit verknüpften <strong>benutzerdefinierten Inhalte unwiderruflich löschen</strong>?]]></item>
+
+		<item name="wcf.acp.htaccess.contents"><![CDATA[Verwendete Snippets]]></item>
+		<item name="wcf.acp.htaccess.files"><![CDATA[Dateien]]></item>
+		<item name="wcf.acp.htaccess.options"><![CDATA[Optionen]]></item>
+		<item name="wcf.acp.htaccess.missingItems"><![CDATA[Es fehlen folgende evtl. sicherheitsrelevante Dateien:<br><ul>{foreach from=$missingFiles item=$file}<li><span class="inlineCode">{$file}</span></li>{/foreach}</ul>]]></item>
+
+		<item name="wcf.acp.htaccess.content.list"><![CDATA[.htaccess-Snippets auflisten]]></item>
+		<item name="wcf.acp.htaccess.content.add"><![CDATA[.htaccess-Snippet hinzufügen]]></item>
+		<item name="wcf.acp.htaccess.content.delete.confirmMessage"><![CDATA[Willst du dieses Snippet wirklich unwiderruflich löschen?]]></item>
+		<item name="wcf.acp.htaccess.content.useable"><![CDATA[Das .htaccess-Snippet kann verwendet werden.]]></item>
+		<item name="wcf.acp.htaccess.content.notuseable"><![CDATA[Das .htaccess-Snippet kann aus folgenden Gründen nicht verwendet werden: {', '|implode:$content->getFailReasons()}]]></item>
+		<item name="wcf.acp.htaccess.content.package"><![CDATA[Identifier des Pakets]]></item>
+		<item name="wcf.acp.htaccess.content.application"><![CDATA[Abkürzung der Anwendung]]></item>
+		<item name="wcf.acp.htaccess.content.path"><![CDATA[Pfad des Ordners relativ zur Anwendung]]></item>
+		<item name="wcf.acp.htaccess.content.content"><![CDATA[Inhalt]]></item>
+		<item name="wcf.acp.htaccess.content.options"><![CDATA[Optionen]]></item>
+		<item name="wcf.acp.htaccess.content.generatedFiles"><![CDATA[Generierte Inhalte]]></item>
+		<item name="wcf.acp.htaccess.content.choose"><![CDATA[Datei auswählen]]></item>
+		<item name="wcf.acp.htaccess.content.file"><![CDATA[Angaben zur .htaccess-Datei]]></item>
+		<item name="wcf.acp.htaccess.content.configuration"><![CDATA[Konfiguration des Snippets]]></item>
+
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.ssl"><![CDATA[SSL erzwingen]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.ssl.description"><![CDATA[Leitet sämtliche HTTP-Aufrufe auf HTTPS um. Bitte achte VOR der Aktivierung darauf, dass der Webserver entsprechend konfiguriert und das verwendete Zertifikat gültig ist.]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.mcps"><![CDATA[MysteryCode Paketserver: Standardkonfiguration]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.mcps.description"><![CDATA[Beachtet die Standardkonfiguration für "schöne Links" des Pakets "MysteryCode Paketserver".]]></item>
+
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.seo"><![CDATA[Aktuelle SEO-Regeln]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.seo.description"><![CDATA[Wandelt Links in eine vereinfachte Form um, aus „https://example.com/index.php?thread/1-dies-ist-ein-test/“ wird „http://example.com/thread/1-dies-ist-ein-test/“ und vergleichbar.<br>Nach Aktivierung dieses Snippets ist die Option „Link-Umschreibungen aktivieren“ aktivierbar.]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keepmaelstrom"><![CDATA[Linkumschreibungen von WoltLab Community Framework 2.0]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keepmaelstrom.description"><![CDATA[Erhält die Kompatibilität für Links aus der Vorgängerversion WCF 2.0]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keeptempest.wbb"><![CDATA[Linkumschreibungen von WoltLab Burning Board 3 (ohne SEO)]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keeptempest.wbb.seo"><![CDATA[Linkumschreibungen von WoltLab Burning Board 3 (SEO-URLs)]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keeptempest.blog"><![CDATA[Linkumschreibungen von WoltLab Community Blog 1 (ohne SEO)]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keeptempest.blog.seo"><![CDATA[Linkumschreibungen von WoltLab Community Blog 1 (SEO-URLs)]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keeptempest.gallery"><![CDATA[Linkumschreibungen von WoltLab Community Gallery 1 (ohne SEO)]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keeptempest.gallery.seo"><![CDATA[Linkumschreibungen von WoltLab Community Gallery 1 (SEO-URLs)]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keeptempest.calendar"><![CDATA[Linkumschreibungen von WoltLab Community Calendar 1 (ohne SEO)]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keepphpbb3"><![CDATA[Linkumschreibungen von phpBB 3.x]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keepvb"><![CDATA[Linkumschreibungen von vBulletin Board 3.x/4.x]]></item>
+		<item name="wcf.acp.htaccess.content.item.de.mysterycode.wcf.htaccess.keepwbb2"><![CDATA[Linkumschreibungen von WoltLab Burning Board 2.x]]></item>
+	</category>
+	<category name="wcf.acp.menu">
+		<item name="wcf.acp.menu.link.htaccess"><![CDATA[.htaccess-Dateien]]></item>
+		<item name="wcf.acp.menu.link.htaccess.content"><![CDATA[.htaccess-Snippets]]></item>
+		<item name="wcf.acp.menu.link.htaccess.content.add"><![CDATA[.htaccess-Snippet hinzufügen]]></item>
+	</category>
+</language>

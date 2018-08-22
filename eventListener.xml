@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com https://mysterycode.de/XSD/eventListener.xsd">
+	<import>
+		<eventlistener name="applicationEdit">
+			<environment>admin</environment>
+			<eventclassname>wcf\form\ApplicationEditForm</eventclassname>
+			<eventname>saved</eventname>
+			<inherit>1</inherit>
+			<listenerclassname>wcf\system\event\listener\ApplicationEditHtaccessEventListener</listenerclassname>
+		</eventlistener>
+		<eventlistener name="applicationInstallation">
+			<environment>admin</environment>
+			<eventclassname>wcf\system\package\PackageInstallationDispatcher</eventclassname>
+			<eventname>postInstall</eventname>
+			<inherit>1</inherit>
+			<listenerclassname>wcf\system\event\listener\ApplicationEditHtaccessEventListener</listenerclassname>
+		</eventlistener>
+
+		<eventlistener name="optionEdit">
+			<environment>admin</environment>
+			<eventclassname>wcf\form\OptionForm</eventclassname>
+			<eventname>saved</eventname>
+			<inherit>1</inherit>
+			<listenerclassname>wcf\system\event\listener\OptionEditHtaccessEventListener</listenerclassname>
+		</eventlistener>
+	</import>
+</data>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com https://mysterycode.de/XSD/acpMenu.xsd">
+	<import>
+		<acpmenuitem name="wcf.acp.menu.link.htaccess">
+			<parent>wcf.acp.menu.link.other</parent>
+			<controller><![CDATA[wcf\acp\page\HtaccessListPage]]></controller>
+		</acpmenuitem>
+		<acpmenuitem name="wcf.acp.menu.link.htaccess.content">
+			<parent>wcf.acp.menu.link.other</parent>
+			<controller><![CDATA[wcf\acp\page\HtaccessContentListPage]]></controller>
+		</acpmenuitem>
+		<acpmenuitem name="wcf.acp.menu.link.htaccess.content.add">
+			<controller><![CDATA[wcf\acp\form\HtaccessContentAddFormListPage]]></controller>
+			<showorder>1</showorder>
+			<parent>wcf.acp.menu.link.htaccess.content</parent>
+			<icon>fa-plus</icon>
+		</acpmenuitem>
+	</import>
+</data>
