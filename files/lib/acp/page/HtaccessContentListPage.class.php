@@ -102,7 +102,8 @@ class HtaccessContentListPage extends MultipleLinkPage {
 		}
 		
 		foreach ($this->objectList->getObjects() as $object) {
-			if ($object->forceSingleFile || $a === false) $this->objectTree[$object->application . '/' . $object->path . (empty($object->path) ? '.htaccess' : '/.htaccess')][] = $object;
+			// todo check path and application assigns of line 106
+			if ($object->forceSingleFile || $a === false) $this->objectTree[$object->getFile()->application . '/' . $object->getFile()->path . (empty($object->getFile()->path) ? '.htaccess' : '/.htaccess')][] = $object;
 			else {
 				if ($object->isUnique && $object->isGlobal && $object->fileID == null) $this->objectTree[$a->getAbbreviation() . '/.htaccess'][] = $object;
 				else if (!$object->isUnique && $object->isGlobal && $object->fileID != null) $this->objectTree[$a->getAbbreviation() . '/.htaccess'][] = $object;
