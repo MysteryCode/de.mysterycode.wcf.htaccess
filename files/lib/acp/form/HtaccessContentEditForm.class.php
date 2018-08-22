@@ -4,7 +4,6 @@ namespace wcf\acp\form;
 
 use wcf\data\htaccess\content\HtaccessContent;
 use wcf\data\htaccess\content\HtaccessContentAction;
-use wcf\data\htaccess\content\HtaccessContentEditor;
 use wcf\data\package\PackageCache;
 use wcf\system\exception\IllegalLinkException;
 use wcf\system\exception\PermissionDeniedException;

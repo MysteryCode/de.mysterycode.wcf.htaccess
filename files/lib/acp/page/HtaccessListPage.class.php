@@ -174,53 +174,6 @@ class HtaccessListPage extends AbstractPage {
 	 * @return string[]
 	 */
 	protected function getGenerationTree() {
-		/*
-		$objectList = new HtaccessContentList();
-		$objectList->sqlOrderBy .= "htaccess_content.showOrder ASC";
-		$objectList->sqlSelects .= "ht.application, ht.path";
-		$objectList->sqlJoins .= " LEFT JOIN wcf" . WCF_N . "_htaccess ht ON ht.fileID = htaccess_content.fileID";
-		$objectList->getConditionBuilder()->add('htaccess_content.isDisabled <> 1');
-		//$objectList->getConditionBuilder()->add('(htaccess_content.fileID IS NOT NULL OR htaccess_content.isUnique = 1)');
-		//$objectList->getConditionBuilder()->add('htaccess_content.fileID IN (SELECT hc.fileID FROM wcf' . WCF_N . '_htaccess hc WHERE hc.application IN (?))', [ApplicationHandler::getInstance()->getAbbreviations()]);
-		$objectList->getConditionBuilder()->add('htaccess_content.fileID IN (SELECT hc.fileID FROM wcf' . WCF_N . '_htaccess hc WHERE hc.application IN (?)) OR (htaccess_content.isUnique = 1 AND htaccess_content.fileID IS NULL)', [ApplicationHandler::getInstance()->getAbbreviations()]);
-		$objectList->readObjects();
-		*/
-		
-		$t = $objectTree = $prevTree = [];
-		/** @var false|\wcf\data\application\Application $a */
-		/*
-		$a = false;
-		foreach (ApplicationHandler::getInstance()->getApplications() as $app) {
-			$t[$app->domainName][$app->domainPath] = $app;
-		}
-		if (count($t) === 1) {
-			$b = array_shift($t);
-			$a = array_shift($b);
-		}
-		
-		foreach ($objectList->getObjects() as $object) {
-			if (($object->forceSingleFile || $a === false) && $object->isUseable()) {
-				$prev = isset($prevTree[$object->getFile()->getPath()]) ? $prevTree[$object->getFile()->getPath()] : null;
-				$next = $objectList->next()
-				$objectTree[$object->getFile()->getPath()][] = $object->getOutput($prev);
-				$prevTree[$object->getFile()->getPath()] = $object;
-			}
-			else if ($a !== false) {
-				if (
-					(
-						($object->isUnique && $object->isGlobal && $object->fileID == null) ||
-						(!$object->isUnique && $object->isGlobal && $object->fileID != null) ||
-						(!$object->isUnique && !$object->isGlobal)
-					) && $object->isUseable()
-				) {
-					$prev = isset($prevTree[$a->getPackage()->getAbsolutePackageDir() . '.htaccess']) ? $prevTree[$a->getPackage()->getAbsolutePackageDir() . '.htaccess'] : null;
-					$objectTree[$a->getPackage()->getAbsolutePackageDir() . '.htaccess'][] = $object->getOutput($prev);
-					$prevTree[$a->getPackage()->getAbsolutePackageDir() . '.htaccess'] = $object;
-				}
-			}
-		}
-		*/
-		
 		$contentList = new RecursiveHtaccessContentList();
 		$contentList->readObjects();
 		$objectTree = $contentList->getOutputTree();

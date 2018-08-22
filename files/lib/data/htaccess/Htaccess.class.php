@@ -2,7 +2,6 @@
 
 namespace wcf\data\htaccess;
 
-use phpline\javaApi\StringBuilder;
 use wcf\data\DatabaseObject;
 use wcf\data\htaccess\content\HtaccessContentList;
 use wcf\system\application\ApplicationHandler;
@@ -39,45 +38,12 @@ class Htaccess extends DatabaseObject {
 	/**
 	 * @return boolean
 	 */
-	/*
-	public static function generateFiles() {
-		$contentList = new HtaccessContentList();
-		$contentList->getConditionBuilder()->add('htaccess_content.isDisabled <> 1');
-		$contentList->sqlOrderBy = 'htaccess_content.showOrder ASC';
-		$contentList->readObjects();
-		
-		$contentTree = [];
-		$global = [];
-		foreach ($contentList->getObjects() as $content) {
-			if (!$content->isUseable()) continue;
-			
-			if ($content->fileID) $contentTree[$content->fileID][$content->showOrder] = $content->getOutput();
-			else $global[$content->showOrder] = $content->getOutput();
-		}
-		
-		$success = true;
-		foreach ($contentTree as $fileID => $snippets) {
-			$snippets = array_merge($global, $snippets);
-			
-			$file = new Htaccess($fileID);
-			$success = $success && file_put_contents($file->getPath(), implode("\n", $snippets)) !== false;
-		}
-		
-		return $success;
-	}
-	*/
-	
-	/**
-	 * @return boolean
-	 */
 	public static function generateFiles() {
 		$objectList = new HtaccessContentList();
 		$objectList->sqlOrderBy .= "htaccess_content.showOrder ASC";
 		$objectList->sqlSelects .= "ht.application, ht.path";
 		$objectList->sqlJoins .= " LEFT JOIN wcf" . WCF_N . "_htaccess ht ON ht.fileID = htaccess_content.fileID";
 		$objectList->getConditionBuilder()->add('htaccess_content.isDisabled <> 1');
-		//$objectList->getConditionBuilder()->add('(htaccess_content.fileID IS NOT NULL OR htaccess_content.isUnique = 1)');
-		//$objectList->getConditionBuilder()->add('htaccess_content.fileID IN (SELECT hc.fileID FROM wcf' . WCF_N . '_htaccess hc WHERE hc.application IN (?))', [ApplicationHandler::getInstance()->getAbbreviations()]);
 		$objectList->getConditionBuilder()->add('htaccess_content.fileID IN (SELECT hc.fileID FROM wcf' . WCF_N . '_htaccess hc WHERE hc.application IN (?)) OR (htaccess_content.isUnique = 1 AND htaccess_content.fileID IS NULL)', [ApplicationHandler::getInstance()->getAbbreviations()]);
 		$objectList->readObjects();
 		

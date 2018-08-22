@@ -66,24 +66,6 @@
 				</dd>
 			</dl>
 
-			{*
-			<dl{if $errorField == 'package'} class="formError"{/if}>
-				<dt><label for="package">{lang}wcf.acp.htaccess.content.package{/lang}</label></dt>
-				<dd>
-					<input type="text" id="package" name="package" class="medium" required value="{$package}" />
-					{if $errorField == 'package'}
-						<small class="innerError">
-							{if $errorType == 'empty'}
-								{lang}wcf.global.form.error.empty{/lang}
-							{else}
-								{lang}wcf.acp.htaccess.content.package.error.{@$errorType}{/lang}
-							{/if}
-						</small>
-					{/if}
-				</dd>
-			</dl>
-			*}
-
 			<dl{if $errorField == 'package'} class="formError"{/if}>
 				<dt><label for="package">{lang}wcf.acp.htaccess.content.package{/lang}</label></dt>
 				<dd>

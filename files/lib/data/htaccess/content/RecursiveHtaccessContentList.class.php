@@ -41,8 +41,6 @@ class RecursiveHtaccessContentList extends HtaccessContentList {
 		parent::__construct();
 		
 		$this->conditionBuilder->add('htaccess_content.isDisabled <> 1');
-		//$this->conditionBuilder->add('(htaccess_content.fileID IS NOT NULL OR htaccess_content.isUnique = 1)');
-		//$this->conditionBuilder->add('htaccess_content.fileID IN (SELECT hc.fileID FROM wcf' . WCF_N . '_htaccess hc WHERE hc.application IN (?))', [ApplicationHandler::getInstance()->getAbbreviations()]);
 		$this->conditionBuilder->add('htaccess_content.fileID IN (SELECT hc.fileID FROM wcf' . WCF_N . '_htaccess hc WHERE hc.application IN (?)) OR (htaccess_content.isUnique = 1 AND htaccess_content.fileID IS NULL)', [ApplicationHandler::getInstance()->getAbbreviations()]);
 	}
 	

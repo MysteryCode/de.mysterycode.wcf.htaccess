@@ -31,7 +31,6 @@
 
 		<instruction type="sql" />
 
-		<instruction type="option" />
 		<instruction type="userGroupOption" />
 		<instruction type="eventListener" />
 		<instruction type="acpMenu" />
@@ -46,7 +45,6 @@
 		<instruction type="acpTemplate" />
 		<instruction type="file" />
 
-		<instruction type="option" />
 		<instruction type="userGroupOption" />
 		<instruction type="eventListener" />
 		<instruction type="acpMenu" />

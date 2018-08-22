@@ -49,7 +49,6 @@ class SSLSnippetProvider implements ISnippetProvider {
 				'uuidHash' => hash('sha256', WCF_UUID),
 				'forceFrontend' => true
 			]));
-			//$url = str_replace('http://', 'https://', $application->getPageURL());
 			$request = new HTTPRequest($url);
 			try {
 				$request->execute();

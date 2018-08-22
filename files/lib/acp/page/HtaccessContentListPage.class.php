@@ -80,8 +80,6 @@ class HtaccessContentListPage extends MultipleLinkPage {
 		
 		$this->objectList->sqlSelects .= "ht.application, ht.path";
 		$this->objectList->sqlJoins .= " LEFT JOIN wcf" . WCF_N . "_htaccess ht ON ht.fileID = htaccess_content.fileID";
-		//$this->objectList->getConditionBuilder()->add('(htaccess_content.fileID IS NOT NULL OR htaccess_content.isUnique = 1)');
-		//$this->objectList->getConditionBuilder()->add('htaccess_content.fileID IN (SELECT hc.fileID FROM wcf' . WCF_N . '_htaccess hc WHERE hc.application IN (?))', [ApplicationHandler::getInstance()->getAbbreviations()]);
 		$this->objectList->getConditionBuilder()->add('htaccess_content.fileID IN (SELECT hc.fileID FROM wcf' . WCF_N . '_htaccess hc WHERE hc.application IN (?)) OR (htaccess_content.isUnique = 1 AND htaccess_content.fileID IS NULL)', [ApplicationHandler::getInstance()->getAbbreviations()]);
 		if (!empty($this->fileID)) $this->objectList->getConditionBuilder()->add('htaccess_content.fileID = ?', [$this->fileID]);
 	}

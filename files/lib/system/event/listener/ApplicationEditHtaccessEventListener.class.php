@@ -3,7 +3,6 @@
 namespace wcf\system\event\listener;
 
 use wcf\acp\form\ApplicationEditForm;
-use wcf\data\application\Application;
 use wcf\data\htaccess\content\HtaccessContent;
 use wcf\data\htaccess\content\HtaccessContentEditor;
 use wcf\data\htaccess\content\HtaccessContentList;

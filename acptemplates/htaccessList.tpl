@@ -5,7 +5,9 @@
 </noscript>
 
 <script data-relocate="true">
-	$(function () {
+	require(['WoltLabSuite/Core/Ui/TabMenu'], function(UiTabMenu) {
+		UiTabMenu.setup();
+
 		$('.jsApplicationHtaccessListToggle').click(function (event) {
 			let app = $(event.currentTarget).toggleClass('fa-chevron-down').toggleClass('fa-chevron-up').data('application');
 			$('.jsApplicationHtaccessList[data-application="'+app+'"]').toggleClass('open');
@@ -56,7 +58,7 @@
 					{/foreach}
 				</div>
 			</section>
-			{foreachelse}
+		{foreachelse}
 			<div class="info">{lang}wcf.global.noItems{/lang}</div>
 		{/foreach}
 	</div>
@@ -116,11 +118,5 @@
 
 	{event name='tabMenuContents'}
 </div>
-
-<script data-relocate="true">
-	require(['WoltLabSuite/Core/Ui/TabMenu'], function(UiTabMenu) {
-		UiTabMenu.setup();
-	});
-</script>
 
 {include file='footer'}
