@@ -32,6 +32,15 @@ class ApplicationEditHtaccessEventListener implements IParameterizedEventListene
 			/** @var PackageInstallationDispatcher $eventObj */
 			
 			if ($eventObj->getPackage()->isApplication) {
+				$check = WCF::getDB()->prepareStatement("SELECT	*
+					FROM	wcf".WCF_N."_htaccess_content htc,
+						wcf".WCF_N."_htaccess ht
+					WHERE	htc.fileID = ht.fileID
+						AND	ht.application = ?
+						AND	ht.package = ?
+						AND	ht.path = ?
+						AND	htc.contentIdentifier = ?");
+				
 				$statement = WCF::getDB()->prepareStatement("SELECT DISTINCT	htaccess_content.contentIdentifier, htaccess_content.*, htc.fileID as referenceFileID
 					FROM		wcf".WCF_N."_htaccess_content htaccess_content
 					LEFT JOIN	wcf".WCF_N."_htaccess_content htc
@@ -45,19 +54,24 @@ class ApplicationEditHtaccessEventListener implements IParameterizedEventListene
 					WHERE		htaccess_content.isGlobal = 1
 							AND htaccess_content.fileID IS NULL");
 				$statement->execute();
+				/** @var HtaccessContent $row */
 				while ($row = $statement->fetchObject(HtaccessContent::class)) {
 					/** @noinspection PhpUndefinedFieldInspection */
-					$contentR = new Htaccess($row->referenceFileID);
+					$referenceFile = new Htaccess($row->referenceFileID);
+					$fileID = $this->getFile($eventObj->getPackage()->package, Package::getAbbreviation($eventObj->getPackage()->package), $referenceFile->path);
 					
-					/** @noinspection PhpDeprecationInspection */
-					$data = $row->getData();
-					unset($data['contentID']);
-					if (isset($data['referenceFileID'])) unset($data['referenceFileID']);
-					$data['fileID'] = $this->getFile($eventObj->getPackage()->package, Package::getAbbreviation($eventObj->getPackage()->package), $contentR->path);
-					$data['isDisabled'] = 1;
-					$data['additionalData'] = serialize([]);
-					
-					HtaccessContentEditor::create($data);
+					$check->execute([Package::getAbbreviation($eventObj->getPackage()->package), $eventObj->getPackage()->package, $referenceFile->path, $row->contentIdentifier]);
+					if ($row === false) {
+						/** @noinspection PhpDeprecationInspection */
+						$data = $row->getData();
+						unset($data['contentID']);
+						if (isset($data['referenceFileID'])) unset($data['referenceFileID']);
+						$data['fileID'] = $fileID;
+						$data['isDisabled'] = 1;
+						$data['additionalData'] = serialize([]);
+						
+						HtaccessContentEditor::create($data);
+					}
 				}
 			}
 		}
